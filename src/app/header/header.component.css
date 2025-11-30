@@ -1,0 +1,59 @@
+.body-home {
+  min-height: 100vh;
+  background-color: #e3e4e5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  gap: 2px;
+}
+
+.header-container {
+  border-bottom: 2px solid #dcdcdc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 5px;
+}
+
+.main-table {
+  background-color: white;
+  border-radius: 5px;
+  padding: 1px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 100%;
+  border-top: 4px solid #4dcbed;
+}
+
+.main-header {
+  text-align: start;
+  padding: 5px;
+  border-radius: 5px 5px 0 0;
+  margin: 0;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.uniform-input,
+select.form-select {
+  height: 42px;
+  line-height: 42px;
+  padding: 0 0.75rem;
+}
+
+input.form-control,
+select.form-select {
+  height: 38px;
+  width: 15rem;
+}
+
+label.form-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-align: start;
+}

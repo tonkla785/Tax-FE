@@ -1,1 +1,54 @@
-<p>header works!</p>
+<div class="container-fluid body-home">
+  <!-- Header row -->
+  <div class="row main-table mb-3">
+    <div class="col-12 header-container">
+      <p class="main-header">VDT0320 : ข้อมูลที่ต้องการค้นหา</p>
+    </div>
+
+    <div class="row align-items-end py-3">
+      <!-- เลขที่ใบสรุป -->
+      <div class="col-md-2 mb-3">
+        <label for="vdtNo" class="form-label">เลขที่ใบสรุป</label>
+        <input
+          id="vdtNo"
+          type="text"
+          class="form-control uniform-input"
+          [(ngModel)]="data.vdtNo"
+        />
+      </div>
+
+      <!-- วันที่ -->
+      <div class="col-md-2 mb-3">
+        <label for="date" class="form-label">วันที่</label>
+        <input
+          id="date"
+          class="form-control uniform-input"
+          type="text"
+          bsDatepicker
+          readonly
+          [maxDate]="maxDate"
+          [bsConfig]="{
+            isAnimated: true,
+            containerClass: 'theme-dark-blue',
+            startView: 'year',
+            showWeekNumbers: false
+          }"
+          style="background-color: white"
+          [(bsValue)]="data.createDate"
+        />
+      </div>
+
+      <!-- ปุ่มค้นหา -->
+      <div class="col-md-2 mb-3">
+        <button class="btn btn-success w-50">ค้นหา</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail row -->
+  <div class="row main-table mb-3">
+    <div class="col-12">
+      <app-detail></app-detail>
+    </div>
+  </div>
+</div>

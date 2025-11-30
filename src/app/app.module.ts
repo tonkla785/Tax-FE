@@ -10,9 +10,26 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { HttpClientModule } from '@angular/common/http';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HeaderComponent } from './header/header.component';
+import { DetailComponent } from './detail/detail.component';
+import { ThshdatePipe } from './pipe/thshdate.pipe';
+import { thLocale } from 'ngx-bootstrap/locale';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+
+const thBeLocale = {
+  ...thLocale,
+
+  postformat: (str: string) => {
+    return str.replace(/\b(\d{4})\b/g, (year) => {
+      const y = parseInt(year, 10);
+      return isNaN(y) ? year : (y + 543).toString();
+    });
+  },
+};
+
+defineLocale('th-be', thBeLocale);
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, DetailComponent, ThshdatePipe],
   imports: [
     BrowserModule,
     AppRoutingModule,
