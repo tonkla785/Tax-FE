@@ -10,10 +10,10 @@ export interface Detail {
   id: number;
   bdtNo: string;
   ndtNo: string;
-  createDate: string | Date;
+  createDate?: Date;
   createBy: string;
   updateBy: string;
-  updateDate: string | Date;
+  updateDate?: Date;
   totalPurchase: number;
   taxS: number;
   vatBR: number;

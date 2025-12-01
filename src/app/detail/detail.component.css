@@ -16,3 +16,62 @@
   font-weight: 400;
   font-size: 20px;
 }
+
+.box-field {
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  padding: 0;
+  margin: 13px;
+  padding-bottom: 20px;
+}
+
+.box-title {
+  float: inline-start;
+  margin-left: 25px;
+  margin-bottom: 0px;
+  padding: 0px;
+  background-color: white;
+}
+
+label.form-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-align: start;
+}
+
+.vat-value {
+  text-align: center;
+  color: green;
+  font-weight: 500;
+}
+
+.need{
+  font-size: 8px;
+  color: red;
+  position: relative;
+  top: -6px;
+  -webkit-text-stroke: 0.3px red;
+  font-weight: bold;
+}
+
+.box-input{
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.pr-0{
+  padding-right: 0px;
+}
+
+label.col-form-label{
+  text-align: end;
+}
+
+.btn-add{
+  width: 8rem;
+}
+
+.is-invalid {
+  border-color: red !important;
+}

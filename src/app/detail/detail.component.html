@@ -1,7 +1,119 @@
-  <div class="body-home">
-    <div class="row mb-3">
-      <div class="col-12 header-container">
-        <p class="main-header">VDT0320 : ข้อมูลแบบ ภ.พ.10</p>
+<div class="body-home">
+  <div class="row mb-3">
+    <div class="col-12 header-container">
+      <p class="main-header">VDT0320 : ข้อมูลแบบ ภ.พ.10</p>
+    </div>
+    <div class="col-12">
+      <div class="row align-items-start">
+        <!-- กล่องซ้าย -->
+        <div class="col-md-6 p-0">
+          <p class="box-title">ภ.พ.10</p>
+          <div class="box-field p-3">
+            <div class="row box-input">
+              <div class="col-md-6 mb-3">
+                <label class="form-label"
+                  >เล่มที่<i class="bi bi-asterisk need"></i
+                ></label>
+                <input type="text" class="form-control" />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"
+                  >เลขที่<i class="bi bi-asterisk need"></i
+                ></label>
+                <input type="text" class="form-control" />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"
+                  >วันที่จัดทำ ภ.พ.10<i class="bi bi-asterisk need"></i
+                ></label>
+                <input
+                  id="date"
+                  class="form-control uniform-input"
+                  type="text"
+                  bsDatepicker
+                  readonly
+                  [maxDate]="maxDate"
+                  [bsConfig]="{
+                    isAnimated: true,
+                    containerClass: 'theme-dark-blue',
+                    startView: 'year',
+                    showWeekNumbers: false
+                  }"
+                  style="background-color: white"
+                  [(bsValue)]="detailData.createDate"
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-label"
+                  >ยอดซื้อ<i class="bi bi-asterisk need"></i
+                ></label>
+                <input type="text" class="form-control" placeholder="0.00" />
+              </div>
+
+              <div class="col-12 mb-3">
+                <div class="row align-items-center">
+                  <label class="col-6 col-form-label"
+                    >เลขประจำตัวผู้เสียภาษีอากร</label
+                  >
+                  <div class="col-6">
+                    <input type="text" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 mb-3">
+                <div class="row align-items-center">
+                  <label class="col-6 col-form-label">สาขาที่</label>
+                  <div class="col-6">
+                    <input type="text" class="form-control" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 mb-3">
+                <div class="row align-items-center">
+                  <label class="col-6 col-form-label">ชื่อสถานประกอบการ</label>
+                  <div class="col-6">
+                    <input type="text" class="form-control" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- กล่องขวา -->
+        <div class="col-md-6 p-0">
+          <p class="box-title text-center">Vat ภาษี และ ค่าธรรมเนียม</p>
+          <div class="box-field">
+            <div class="row mt-3 align-items-center">
+              <div class="col-6 text-end fw-bold">Vat 7%</div>
+              <div class="col-6 vat-value">0.00</div>
+
+              <div class="col-6 text-end mt-2 fw-bold">
+                ภาษีที่ได้รับคืน (กรมสรรพากร)
+              </div>
+              <div class="col-6 vat-value">0.00</div>
+
+              <div class="col-6 text-end mt-2 fw-bold">
+                ภาษีที่ได้รับคืนจากตัวแทน
+              </div>
+              <div class="col-6 vat-value">0.00</div>
+
+              <div class="col-6 text-end mt-2 fw-bold">
+                ค่าธรรมเนียมในการคืน
+              </div>
+              <div class="col-6 vat-value">0.00</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <div class="mb-3">
+    <button class="btn btn-success btn-add">เพิ่ม</button>
+  </div>
+</div>
