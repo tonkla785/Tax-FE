@@ -14,6 +14,9 @@ import { DetailComponent } from './detail/detail.component';
 import { ThshdatePipe } from './pipe/thshdate.pipe';
 import { thLocale } from 'ngx-bootstrap/locale';
 import { defineLocale } from 'ngx-bootstrap/chronos';
+import { TableComponent } from './table/table.component';
+import { TwoDecimalDirective } from './util/directive/two-decimal.directive';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 const thBeLocale = {
   ...thLocale,
@@ -29,7 +32,14 @@ const thBeLocale = {
 defineLocale('th-be', thBeLocale);
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, DetailComponent, ThshdatePipe],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    DetailComponent,
+    ThshdatePipe,
+    TableComponent,
+    TwoDecimalDirective,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -39,6 +49,7 @@ defineLocale('th-be', thBeLocale);
     ModalModule,
     NzTableModule,
     HttpClientModule,
+    TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),
   ],
   providers: [],

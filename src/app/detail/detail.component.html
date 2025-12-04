@@ -14,26 +14,41 @@
                 <label class="form-label"
                   >เล่มที่<i class="bi bi-asterisk need"></i
                 ></label>
-                <input type="text" class="form-control" />
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="detailData.bdtNo"
+                  (ngModelChange)="checkBdtNo()"
+                  [ngClass]="{ 'is-invalid': this.errors.bdtNo }"
+                  [attr.title]="errorMessages.bdtNo"
+                />
               </div>
 
               <div class="col-md-6 mb-3">
                 <label class="form-label"
                   >เลขที่<i class="bi bi-asterisk need"></i
                 ></label>
-                <input type="text" class="form-control" />
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="detailData.ndtNo"
+                  (ngModelChange)="checkNdtNo()"
+                  [ngClass]="{ 'is-invalid': this.errors.ndtNo }"
+                  [attr.title]="errorMessages.ndtNo"
+                />
               </div>
 
               <div class="col-md-6 mb-3">
-                <label class="form-label"
-                  >วันที่จัดทำ ภ.พ.10<i class="bi bi-asterisk need"></i
-                ></label>
+                <label class="form-label">
+                  วันที่จัดทำ ภ.พ.10<i class="bi bi-asterisk need"></i>
+                </label>
                 <input
                   id="date"
                   class="form-control uniform-input"
                   type="text"
                   bsDatepicker
                   readonly
+                  placeholder="dd/mm/yyyy"
                   [maxDate]="maxDate"
                   [bsConfig]="{
                     isAnimated: true,
@@ -43,6 +58,9 @@
                   }"
                   style="background-color: white"
                   [(bsValue)]="detailData.createDate"
+                  (bsValueChange)="checkCreateDate()"
+                  [ngClass]="{ 'is-invalid': this.errors.createDate }"
+                  [attr.title]="errorMessages.createDate"
                 />
               </div>
 
@@ -50,16 +68,35 @@
                 <label class="form-label"
                   >ยอดซื้อ<i class="bi bi-asterisk need"></i
                 ></label>
-                <input type="text" class="form-control" placeholder="0.00" />
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="0.00"
+                  appTwoDecimal
+                  [(ngModel)]="detailData.totalPurchase"
+                  (ngModelChange)="
+                    onTotalPurchaseChange(); checkTotalPurchase()
+                  "
+                  [ngClass]="{ 'is-invalid': this.errors.totalPurchase }"
+                  [attr.title]="errorMessages.totalPurchase"
+                />
               </div>
 
-              <div class="col-12 mb-3">
+              <div class="col-12 mb-3 mt-2">
                 <div class="row align-items-center">
                   <label class="col-6 col-form-label"
                     >เลขประจำตัวผู้เสียภาษีอากร</label
                   >
                   <div class="col-6">
-                    <input type="text" class="form-control" />
+                    <input
+                      placeholder="13 หลัก"
+                      type="number"
+                      class="form-control"
+                      [(ngModel)]="detailData.taxIden"
+                      (ngModelChange)="checkTaxIden()"
+                      [ngClass]="{ 'is-invalid': this.errors.taxIden }"
+                      [attr.title]="errorMessages.taxIden"
+                    />
                   </div>
                 </div>
               </div>
@@ -68,7 +105,15 @@
                 <div class="row align-items-center">
                   <label class="col-6 col-form-label">สาขาที่</label>
                   <div class="col-6">
-                    <input type="text" class="form-control" />
+                    <input
+                      type="number"
+                      placeholder="5 หลัก"
+                      class="form-control"
+                      [(ngModel)]="detailData.branchNo"
+                      (ngModelChange)="checkBranchNo()"
+                      [ngClass]="{ 'is-invalid': this.errors.branchNo }"
+                      [attr.title]="errorMessages.branchNo"
+                    />
                   </div>
                 </div>
               </div>
@@ -77,7 +122,16 @@
                 <div class="row align-items-center">
                   <label class="col-6 col-form-label">ชื่อสถานประกอบการ</label>
                   <div class="col-6">
-                    <input type="text" class="form-control" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="detailData.establishmentName"
+                      (ngModelChange)="checkEstablishmentName()"
+                      [ngClass]="{
+                        'is-invalid': this.errors.establishmentName
+                      }"
+                      [attr.title]="errorMessages.establishmentName"
+                    />
                   </div>
                 </div>
               </div>
@@ -91,22 +145,30 @@
           <div class="box-field">
             <div class="row mt-3 align-items-center">
               <div class="col-6 text-end fw-bold">Vat 7%</div>
-              <div class="col-6 vat-value">0.00</div>
+              <div class="col-6 vat-value">
+                {{ detailData?.taxS || 0 | number : "1.2-2" }}
+              </div>
 
               <div class="col-6 text-end mt-2 fw-bold">
                 ภาษีที่ได้รับคืน (กรมสรรพากร)
               </div>
-              <div class="col-6 vat-value">0.00</div>
+              <div class="col-6 vat-value">
+                {{ detailData?.vatBR || 0 | number : "1.2-2" }}
+              </div>
 
               <div class="col-6 text-end mt-2 fw-bold">
                 ภาษีที่ได้รับคืนจากตัวแทน
               </div>
-              <div class="col-6 vat-value">0.00</div>
+              <div class="col-6 vat-value">
+                {{ detailData?.vatBA || 0 | number : "1.2-2" }}
+              </div>
 
               <div class="col-6 text-end mt-2 fw-bold">
                 ค่าธรรมเนียมในการคืน
               </div>
-              <div class="col-6 vat-value">0.00</div>
+              <div class="col-6 vat-value">
+                {{ detailData?.vatTB || 0 | number : "1.2-2" }}
+              </div>
             </div>
           </div>
         </div>
@@ -114,6 +176,6 @@
     </div>
   </div>
   <div class="mb-3">
-    <button class="btn btn-success btn-add">เพิ่ม</button>
+    <button class="btn btn-success btn-add" (click)="onAdd()">เพิ่ม</button>
   </div>
 </div>

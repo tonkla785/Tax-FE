@@ -1,0 +1,80 @@
+<nz-table
+  #virtualTable
+  [nzBordered]="true"
+  class="custom-table"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false"
+  [nzData]="data"
+  [nzScroll]="{ x: '1200px', y: '240px' }"
+  [nzVirtualItemSize]="54"
+  nzNoResult="ไม่มีข้อมูล"
+>
+  <thead class="table-header">
+    <tr>
+      <th>เล่มที่<br />อ้างอิงการขาย</th>
+      <th>เลขที่<br />อ้างอิงการขาย</th>
+      <th>วันที่จัดทำ<br />ภ.พ.10</th>
+      <th >ชื่อสถานประกอบการ</th>
+      <th>ยอดซื้อ</th>
+      <th>ภาษี<br />มูลค่าเพิ่ม</th>
+      <th>ภาษีที่ได้รับคืน<br />(กรมสรรพากร)</th>
+      <th>ภาษีที่ได้รับคืน<br />(ตัวแทน)</th>
+      <th>ค่าธรรมเนียมในการคืน</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of virtualTable.data; let i = index">
+      <td>{{ data.bdtNo }}</td>
+      <td>{{ data.ndtNo }}</td>
+      <td>{{ data.createDate | thshdate }}</td>
+      <td>{{ data.establishmentName }}</td>
+      <td>{{ data.totalPurchase | number:'1.2-2'}}</td>
+      <td>{{ data.taxS | number:'1.2-2'}}</td>
+      <td>{{ data.vatBR | number:'1.2-2'}}</td>
+      <td>{{ data.vatBA | number:'1.2-2'}}</td>
+      <td>{{ data.vatTB | number:'1.2-2'}}</td>
+      <td>
+        <button class="btn-table" (click)="onEdit(data,i)"><i class="bi bi-pencil-square"></i></button>
+        <button class="btn-table" (click)="confirmDelete(data,i)"><i class="bi bi-trash"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<!-- Delete Confirmation Modal -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  bsModal
+  #deleteModal="bs-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ยืนยันการลบ</h5>
+      </div>
+      <div class="modal-body">คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลนี้?</div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="deleteModal.hide()"
+        >
+          ยกเลิก
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onDeleteConfirm()"
+        >
+          ลบ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

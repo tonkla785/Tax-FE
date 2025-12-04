@@ -4,6 +4,8 @@ export interface Header {
   createBy: string;
   createDate?: Date;
   detailEntityList: Detail[];
+
+  selected?: boolean;
 }
 
 export interface Detail {
@@ -14,14 +16,16 @@ export interface Detail {
   createBy: string;
   updateBy: string;
   updateDate?: Date;
-  totalPurchase: number;
-  taxS: number;
-  vatBR: number;
-  vatBA: number;
-  vatTB: number;
+  totalPurchase?: number;
+  taxS?: number;
+  vatBR?: number;
+  vatBA?: number;
+  vatTB?: number;
   branchNo: string;
   establishmentName: string;
   taxIden: string;
+
+  index?: number;
 }
 
 export interface ApiResponse<T> {

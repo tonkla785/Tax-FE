@@ -64,3 +64,25 @@ export function alertHandlerMessage(message: string) {
     },
   });
 }
+
+export function alertSubmitMessage(message: string) {
+  Swal.fire({
+    toast: false,
+    position: 'center',
+    icon: 'warning',
+    text: message,
+    title: 'No Data to Submit!',
+    showConfirmButton: false,
+    timer: 1500,
+    timerProgressBar: false,
+    width: '400px',
+    padding: '10px',
+
+    showClass: {
+      popup: 'animate__animated animate__fadeInDown',
+    },
+    hideClass: {
+      popup: 'animate__animated animate__fadeOutUp',
+    },
+  });
+}

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApiResponse, Detail, Header } from '../interface/taxinterface';
 
 @Injectable({
@@ -13,16 +12,21 @@ export class TaxService {
   private apiUrl = 'http://localhost:8080/tax-service';
 
   createTax(details: Detail[]): Observable<ApiResponse<Header>> {
-    return this.http.post<ApiResponse<Header>>(`${this.apiUrl}/create`, {
-      details,
-    });
+    return this.http.post<ApiResponse<Header>>(`${this.apiUrl}/create`,details);
   }
 
-  updateTax(vdtNo: number,detailList: Detail[]): Observable<ApiResponse<Header>> {
-    return this.http.put<ApiResponse<Header>>(`${this.apiUrl}/update/${vdtNo}`,detailList);
+  updateTax(
+    vdtNo: number,
+    detailList: Detail[]
+  ): Observable<ApiResponse<Header>> {
+    return this.http.put<ApiResponse<Header>>(
+      `${this.apiUrl}/update/${vdtNo}`,detailList);
   }
 
-  searchHeader(vdtNo?: number,createDate?: string): Observable<ApiResponse<any>> {
+  searchHeader(
+    vdtNo?: number,
+    createDate?: string
+  ): Observable<ApiResponse<any>> {
     let params = new HttpParams();
 
     if (vdtNo !== undefined && vdtNo !== null) {
@@ -32,12 +36,10 @@ export class TaxService {
       params = params.set('createDate', createDate);
     }
 
-    return this.http
-      .get<ApiResponse<any>>(`${this.apiUrl}/search`, { params })
-      .pipe(map((res) => res.data));
+    return this.http.get<ApiResponse<any>>(`${this.apiUrl}/search`, { params });
   }
 
-  deleteTax(id:number): Observable<any> {
+  deleteTax(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }
 }

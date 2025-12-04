@@ -57,3 +57,59 @@ label.form-label {
   margin-bottom: 5px;
   text-align: start;
 }
+
+.btn-action{
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.btn-save,
+.btn-print,
+.btn-clear {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-save {
+  background-color: rgb(43, 163, 43);
+  color: white;
+  margin-right: 10px;
+}
+
+.btn-save:hover {
+  background-color: rgb(35, 140, 35);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-print {
+  background-color: rgb(62, 166, 251);
+  color: white;
+}
+
+.btn-print:hover {
+  background-color: rgb(40, 140, 220);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-clear {
+  background-color: rgb(232, 186, 4);
+  color: white;
+  margin-left: 150px;
+}
+
+.btn-clear:hover {
+  background-color: rgb(200, 160, 3);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.modal-checkbox-list {
+  max-height: 100px;
+  overflow-y: auto;
+}
