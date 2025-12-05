@@ -107,7 +107,7 @@ export class HeaderComponent implements OnInit {
             this.pdf.vdtDate = this.searchResult[0].vdtDate
               ? new Date(this.searchResult[0].vdtDate)
               : undefined;
-            this.pdf.vdtNo = this.searchResult[0].vdtNo;
+            this.pdf.vdtNo = extractedId ?? 0;
             alertMessage();
           } else {
             this.seacrhModal.show();
@@ -158,6 +158,7 @@ export class HeaderComponent implements OnInit {
   saveData() {
     const hasDetails = this.data.detailEntityList?.length > 0;
     const hasDeleted = this.deletedDetailIds?.length > 0;
+    const extractedId = this.validateVdtNoFormat(this.data.vdtNo?.toString());
 
     if (!hasDetails && !hasDeleted) {
       alertSubmitMessage('ยังไม่มีข้อมูลรายละเอียดที่จะบันทึก');
@@ -170,7 +171,7 @@ export class HeaderComponent implements OnInit {
       saveProcess = this.taxService.createTax(this.data.detailEntityList);
     } else {
       saveProcess = this.taxService.updateTax(
-        this.data.vdtNo,
+        extractedId ?? 0,
         this.data.detailEntityList
       );
     }
@@ -254,7 +255,7 @@ export class HeaderComponent implements OnInit {
       next: (blob: Blob) => {
         const pdfUrl = URL.createObjectURL(blob);
         this.pdfUrl = pdfUrl;
-        this.pdfModal.show(); // เปิด Modal
+        this.pdfModal.show();
       },
       error: () => alertErrorMessage('ไม่สามารถพิมพ์ใบสรุปได้'),
     });
