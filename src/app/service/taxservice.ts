@@ -12,7 +12,10 @@ export class TaxService {
   private apiUrl = 'http://localhost:8080/tax-service';
 
   createTax(details: Detail[]): Observable<ApiResponse<Header>> {
-    return this.http.post<ApiResponse<Header>>(`${this.apiUrl}/create`,details);
+    return this.http.post<ApiResponse<Header>>(
+      `${this.apiUrl}/create`,
+      details
+    );
   }
 
   updateTax(
@@ -20,7 +23,9 @@ export class TaxService {
     detailList: Detail[]
   ): Observable<ApiResponse<Header>> {
     return this.http.put<ApiResponse<Header>>(
-      `${this.apiUrl}/update/${vdtNo}`,detailList);
+      `${this.apiUrl}/update/${vdtNo}`,
+      detailList
+    );
   }
 
   searchHeader(
@@ -41,5 +46,11 @@ export class TaxService {
 
   deleteTax(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
+  }
+
+  printReport(payload: any) {
+    return this.http.post(`${this.apiUrl}/pdf`, payload, {
+      responseType: 'blob',
+    });
   }
 }

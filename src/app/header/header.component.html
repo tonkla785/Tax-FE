@@ -64,7 +64,7 @@
       ></app-table>
       <div class="btn-action">
         <button class="btn-save btn" (click)="saveData()">บันทึก</button>
-        <button class="btn-print btn">พิมพ์ใบสรุป</button>
+        <button class="btn-print btn" (click)="printPdf()">พิมพ์ใบสรุป</button>
         <button class="btn-clear btn" (click)="clearScreen()">ล้างจอภาพ</button>
       </div>
     </div>
@@ -119,6 +119,35 @@
         <button class="btn btn-secondary" (click)="seacrhModal.hide()">
           ปิด
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #pdfModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl" style="max-width: 90vw;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Preview PDF</h5>
+        <button type="button" class="close" (click)="pdfModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="height: 80vh;">
+        <iframe
+          *ngIf="pdfUrl"
+          [src]="pdfUrl | safeUrl"
+          width="100%"
+          height="100%"
+          frameborder="0"
+        ></iframe>
       </div>
     </div>
   </div>

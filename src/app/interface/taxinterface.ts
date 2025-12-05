@@ -1,7 +1,7 @@
 export interface Header {
   vdtNo?: number;
   vdtDate?: Date;
-  createBy: string;
+  createBy?: string;
   createDate?: Date;
   detailEntityList: Detail[];
 

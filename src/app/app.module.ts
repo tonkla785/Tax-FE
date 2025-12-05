@@ -17,6 +17,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { TableComponent } from './table/table.component';
 import { TwoDecimalDirective } from './util/directive/two-decimal.directive';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { SafeUrlPipe } from './pipe/safe-url.pipe';
 
 const thBeLocale = {
   ...thLocale,
@@ -39,6 +40,7 @@ defineLocale('th-be', thBeLocale);
     ThshdatePipe,
     TableComponent,
     TwoDecimalDirective,
+    SafeUrlPipe,
   ],
   imports: [
     BrowserModule,

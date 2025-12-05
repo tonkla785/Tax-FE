@@ -17,6 +17,7 @@ import {
 })
 export class HeaderComponent implements OnInit {
   @ViewChild('seacrhModal') seacrhModal!: ModalDirective;
+  @ViewChild('pdfModal') pdfModal!: ModalDirective;
 
   maxDate: Date;
   resetFlag = false;
@@ -28,6 +29,14 @@ export class HeaderComponent implements OnInit {
     createDate: undefined,
     detailEntityList: [],
   };
+
+  pdf: Header = {
+    vdtNo: undefined,
+    vdtDate: undefined,
+    detailEntityList: [],
+  };
+
+  pdfUrl: string | null = null;
 
   selectedDetail?: Detail = {
     id: 0,
@@ -70,6 +79,9 @@ export class HeaderComponent implements OnInit {
   }
 
   searchData() {
+    this.deletedDetailIds = [];
+    this.data.detailEntityList = [];
+    this.resetFlag = !this.resetFlag;
     const extractedId = this.validateVdtNoFormat(this.data.vdtNo?.toString());
 
     if (this.data.vdtNo && extractedId === null) {
@@ -92,6 +104,10 @@ export class HeaderComponent implements OnInit {
             this.data.detailEntityList = [
               ...this.searchResult[0].detailEntityList,
             ];
+            this.pdf.vdtDate = this.searchResult[0].vdtDate
+              ? new Date(this.searchResult[0].vdtDate)
+              : undefined;
+            this.pdf.vdtNo = this.searchResult[0].vdtNo;
             alertMessage();
           } else {
             this.seacrhModal.show();
@@ -112,6 +128,10 @@ export class HeaderComponent implements OnInit {
   addSelectedItems() {
     if (this.selectedHeader) {
       this.data.detailEntityList = [...this.selectedHeader.detailEntityList];
+      this.pdf.vdtDate = this.selectedHeader.vdtDate
+        ? new Date(this.selectedHeader.vdtDate)
+        : undefined;
+      this.pdf.vdtNo = this.selectedHeader.vdtNo;
       this.seacrhModal.hide();
       console.log('Table Data:', this.data.detailEntityList);
     }
@@ -208,10 +228,35 @@ export class HeaderComponent implements OnInit {
     this.selectedDetail = undefined;
 
     this.searchResult = [];
+    this.deletedDetailIds = [];
     this.selectedHeader = undefined;
 
     this.resetFlag = !this.resetFlag;
 
     console.log('Cleared screen:', this.data);
+  }
+
+  printPdf() {
+    if (this.data.detailEntityList.length === 0)
+      return alertHandlerMessage('ไม่มีข้อมูลให้พิมพ์ pdf');
+
+    const headerId = this.data.vdtNo
+      ? this.validateVdtNoFormat(this.data.vdtNo?.toString())
+      : this.pdf.vdtNo;
+
+    const payload = {
+      vdtNo: headerId,
+      vdtDate: this.pdf.vdtDate ? formatDate(this.pdf.vdtDate) : undefined,
+      detailEntityList: this.data.detailEntityList,
+    };
+
+    this.taxService.printReport(payload).subscribe({
+      next: (blob: Blob) => {
+        const pdfUrl = URL.createObjectURL(blob);
+        this.pdfUrl = pdfUrl;
+        this.pdfModal.show(); // เปิด Modal
+      },
+      error: () => alertErrorMessage('ไม่สามารถพิมพ์ใบสรุปได้'),
+    });
   }
 }
