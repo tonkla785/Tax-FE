@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
     this.deletedDetailIds = [];
     this.data.detailEntityList = [];
     this.resetFlag = !this.resetFlag;
-    const extractedId = this.validateVdtNoFormat(this.data.vdtNo?.toString());
+    const extractedId = this.validateVdtNoFormat(this.data.vdtNo?.toString().trim());
 
     if (this.data.vdtNo && extractedId === null) {
       alertHandlerMessage(
