@@ -33,3 +33,8 @@ export interface ApiResponse<T> {
   responseMessage: string;
   data: T;
 }
+
+export interface FormInput {
+  vdtNo: string;
+  createDate: Date | undefined;
+}

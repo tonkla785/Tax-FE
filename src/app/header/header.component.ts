@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaxService } from '../service/taxservice';
-import { Detail, Header } from '../interface/taxinterface';
+import { Detail, Header, FormInput } from '../interface/taxinterface';
 import { formatDate } from '../util/datetostring';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
@@ -59,6 +59,11 @@ export class HeaderComponent implements OnInit {
   searchResult: Header[] = [];
   selectedHeader?: Header;
 
+  formInput: FormInput = {
+    vdtNo: '',
+    createDate: undefined,
+  };
+
   deletedDetailIds: number[] = [];
 
   constructor(private taxService: TaxService) {
@@ -67,33 +72,38 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  validateVdtNoFormat(vdtNo: string | undefined): number | null {
-    if (!vdtNo) return null;
+  validateVdtNoFormat(vdtNo: string | number | undefined): number | undefined {
+    if (!vdtNo) return undefined;
 
-    const regex = /^ID000(\d+)$/;
-    const match = vdtNo.match(regex);
-
-    if (!match) return null;
-
-    return Number(match[1]);
+    const match = vdtNo.toString().match(/^ID000(\d+)$/);
+    return match ? Number(match[1]) : undefined;
   }
 
   searchData() {
+    const extractedId = this.validateVdtNoFormat(this.formInput.vdtNo.trim());
+
+    this.data.vdtNo = extractedId ?? undefined;
+    this.data.createDate = this.formInput.createDate;
+
     this.deletedDetailIds = [];
     this.data.detailEntityList = [];
     this.resetFlag = !this.resetFlag;
-    const extractedId = this.validateVdtNoFormat(this.data.vdtNo?.toString().trim());
 
-    if (this.data.vdtNo && extractedId === null) {
+    if (this.formInput.vdtNo && extractedId === undefined) {
       alertHandlerMessage(
         'รูปแบบเลขที่ใบสรุปต้องเป็น ID + 000 + รหัสจริง เช่น ID00020'
       );
       return;
     }
 
+    if (!this.formInput.vdtNo && !this.formInput.createDate) {
+      alertHandlerMessage('กรุณากรอกข้อมูลก่อนค้นหา');
+      return;
+    }
+
     this.taxService
       .searchHeader(
-        extractedId ?? undefined,
+        this.data.vdtNo ?? undefined,
         this.data.createDate ? formatDate(this.data.createDate) : undefined
       )
       .subscribe({
@@ -107,7 +117,7 @@ export class HeaderComponent implements OnInit {
             this.pdf.vdtDate = this.searchResult[0].vdtDate
               ? new Date(this.searchResult[0].vdtDate)
               : undefined;
-            this.pdf.vdtNo = extractedId ?? 0;
+            this.pdf.vdtNo = this.searchResult[0].vdtNo ?? 0;
             alertMessage();
           } else {
             this.seacrhModal.show();
@@ -127,6 +137,7 @@ export class HeaderComponent implements OnInit {
 
   addSelectedItems() {
     if (this.selectedHeader) {
+      this.data.vdtNo = this.selectedHeader.vdtNo;
       this.data.detailEntityList = [...this.selectedHeader.detailEntityList];
       this.pdf.vdtDate = this.selectedHeader.vdtDate
         ? new Date(this.selectedHeader.vdtDate)
@@ -156,25 +167,17 @@ export class HeaderComponent implements OnInit {
   }
 
   saveData() {
-    const hasDetails = this.data.detailEntityList?.length > 0;
-    const hasDeleted = this.deletedDetailIds?.length > 0;
-    const extractedId = this.validateVdtNoFormat(this.data.vdtNo?.toString());
+    const hasDetails = this.data.detailEntityList.length > 0;
+    const hasDeleted = this.deletedDetailIds.length > 0;
+    const headerId = this.data.vdtNo;
 
     if (!hasDetails && !hasDeleted) {
-      alertSubmitMessage('ยังไม่มีข้อมูลรายละเอียดที่จะบันทึก');
-      return;
+      return alertSubmitMessage('ยังไม่มีข้อมูลรายละเอียดที่จะบันทึก');
     }
 
-    let saveProcess;
-
-    if (!this.data.vdtNo) {
-      saveProcess = this.taxService.createTax(this.data.detailEntityList);
-    } else {
-      saveProcess = this.taxService.updateTax(
-        extractedId ?? 0,
-        this.data.detailEntityList
-      );
-    }
+    const saveProcess = !headerId
+      ? this.taxService.createTax(this.data.detailEntityList)
+      : this.taxService.updateTax(headerId, this.data.detailEntityList);
 
     saveProcess.subscribe({
       next: (res) => {
@@ -184,8 +187,7 @@ export class HeaderComponent implements OnInit {
         this.deleteMarkedDetails();
         this.clearScreen();
       },
-      error: (err) => {
-        console.error('บันทึกไม่สำเร็จ', err);
+      error: () => {
         alertErrorMessage('เกิดข้อผิดพลาดในการบันทึก');
       },
     });
@@ -232,6 +234,11 @@ export class HeaderComponent implements OnInit {
     this.deletedDetailIds = [];
     this.selectedHeader = undefined;
 
+    this.formInput = {
+      vdtNo: '',
+      createDate: undefined,
+    };
+
     this.resetFlag = !this.resetFlag;
 
     console.log('Cleared screen:', this.data);
@@ -241,13 +248,9 @@ export class HeaderComponent implements OnInit {
     if (this.data.detailEntityList.length === 0)
       return alertHandlerMessage('ไม่มีข้อมูลให้พิมพ์ pdf');
 
-    const headerId = this.data.vdtNo
-      ? this.validateVdtNoFormat(this.data.vdtNo?.toString())
-      : this.pdf.vdtNo;
-
     const payload = {
-      vdtNo: headerId,
-      vdtDate: this.pdf.vdtDate ? formatDate(this.pdf.vdtDate) : undefined,
+      vdtNo: this.pdf.vdtNo || null,
+      vdtDate: this.pdf.vdtDate ? formatDate(this.pdf.vdtDate) : null,
       detailEntityList: this.data.detailEntityList,
     };
 
